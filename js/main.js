@@ -1,0 +1,154 @@
+(function ($) {
+    "use strict";
+
+    // Spinner
+    var spinner = function () {
+        setTimeout(function () {
+            if ($('#spinner').length > 0) {
+                $('#spinner').removeClass('show');
+            }
+        }, 1);
+    };
+    spinner();
+    
+    
+    // Initiate the wowjs
+    new WOW().init();
+
+
+    // Sticky Navbar
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.sticky-top').addClass('shadow-sm').css('top', '0px');
+        } else {
+            $('.sticky-top').removeClass('shadow-sm').css('top', '-100px');
+        }
+    });
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+    
+        function updateActiveNav() {
+            let scrollPosition = window.scrollY;
+    
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute("id");
+    
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach((link) => {
+                        link.classList.remove("active");
+                        if (link.getAttribute("href") === `#${sectionId}`) {
+                            link.classList.add("active");
+                        }
+                    });
+                }
+            });
+        }
+    
+        // Update active link when scrolling
+        window.addEventListener("scroll", updateActiveNav);
+    
+        // Update active link when a nav link is clicked
+        navLinks.forEach((link) => {
+            link.addEventListener("click", function () {
+                navLinks.forEach((nav) => nav.classList.remove("active"));
+                this.classList.add("active");
+            });
+        });
+    });
+    
+    // Back to top button
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.back-to-top').fadeIn('slow');
+        } else {
+            $('.back-to-top').fadeOut('slow');
+        }
+    });
+    $('.back-to-top').click(function () {
+        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        return false;
+    });
+
+
+  // Facts counter - only when visible
+document.addEventListener("DOMContentLoaded", function () {
+    const counters = document.querySelectorAll('[data-toggle="counter-up"]');
+
+    const startCounter = (counter) => {
+        $(counter).counterUp({
+            delay: 10,
+            time: 2000
+        });
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startCounter(entry.target);
+                observer.unobserve(entry.target); // Run only once
+            }
+        });
+    }, { threshold: 0.5 }); // 50% of element must be visible
+
+    counters.forEach(counter => observer.observe(counter));
+});
+
+
+    // Header carousel
+    $(".header-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 3000,
+        loop: true,
+        nav: false,
+        dots: true,
+        items: 1,
+        dotsData: true,
+    });
+
+
+    // Testimonials carousel
+    $(".testimonial-carousel").owlCarousel({
+        autoplay: true,
+        smartSpeed: 1000,
+        center: true,
+        dots: false,
+        loop: true,
+        nav : true,
+        navText : [
+            '<i class="bi bi-arrow-left"></i>',
+            '<i class="bi bi-arrow-right"></i>'
+        ],
+        responsive: {
+            0:{
+                items:1
+            },
+            768:{
+                items:2
+            }
+        }
+    });
+
+
+    // Portfolio isotope and filter
+    var portfolioIsotope = $('.portfolio-container').isotope({
+        itemSelector: '.portfolio-item',
+        layoutMode: 'fitRows'
+    });
+    $('#portfolio-flters li').on('click', function () {
+        $("#portfolio-flters li").removeClass('active');
+        $(this).addClass('active');
+
+        portfolioIsotope.isotope({filter: $(this).data('filter')});
+    });
+
+    window.onload = function() {
+        // Trigger the click event on the All button
+        document.getElementById('ällButton').click();
+    }
+    
+})(jQuery);
+
