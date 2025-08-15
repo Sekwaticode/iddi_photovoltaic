@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+// Whatsapp
 
 
     // Portfolio isotope and filter
